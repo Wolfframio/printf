@@ -20,7 +20,8 @@
 
 char	*ft_strchr(const char *s, int c);
 int		ft_printnbr(int n);
+int		ft_printnbru(unsigned int n);
 int		ft_printstr(char *s);
-
+int		ft_printchar(char c);
 
 #endif

@@ -15,8 +15,11 @@ NAME		= libftprintf.a
 SRCS		= 	ft_printf.c \
 				ft_strchr.c \
 				ft_printnbr.c \
+				ft_printnbru.c \
 				ft_printstr.c \
+				ft_printchar.c \
 				
+OBJS		= $(SRCS:%.c=%.o)
 
 FLAGS		= -Wall -Wextra -Werror
 
