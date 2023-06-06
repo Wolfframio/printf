@@ -14,7 +14,9 @@
 
 int ft_formatspec(char y, va_list args)
 {
-	if (y == 'i' || y == 'd')
+	if (s[i] == '%' && s[i + 1] == '%')
+		return (ft_printchar('%') + 1)
+	else if (y == 'i' || y == 'd')
 		return (ft_printnbr(va_arg(args, int)));
 	else if (y == 'c')
 		return (ft_printchar(va_arg(args, int)));
@@ -42,13 +44,8 @@ int ft_printf(const char *s, ...)
 			write(1, &s[i], 1);
 			len++;
 		}
-		if (s[i] == '%' && s[i + 1] == '%')
-		{
-			write(1, "%", 1);
-			len++;
-			i++;
-		}
-		if (s[i] == '%' && ft_strchr("cspdiuxX", s[i + 1]) != NULL)
+		
+		if (s[i] == '%' && ft_strchr("cspdiuxX%", s[i + 1]) != NULL)
 		{
 			len += ft_formatspec(s[i + 1], args);
 			i++;
