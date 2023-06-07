@@ -88,6 +88,8 @@ int	ft_printstr(char *s)
 	int	i;
 
 	i = 0;
+	if (!s)
+		return (write(1, "(null)", 6));
 	while (s[i])
 	{
 		write(1, &s[i], 1);
@@ -96,12 +98,14 @@ int	ft_printstr(char *s)
 	return (i);
 }
 
-int ft_printpointer(unsigned long long int addr)
+int ft_printpointer(char *addr)
 {
 	int	len;
 
+	if (addr == NULL)
+		return (write(1, "0x0", 3));
 	len = ft_printstr("0x");
-	len += ft_printhex(addr, 'p');
+	len += ft_printhex((unsigned long long int)addr, 'p');
 	return (len);
 }
 
@@ -142,9 +146,9 @@ int ft_formatspec(char format, va_list args)
 	else if (format == 'x' || format == 'X')
 		return (ft_printhex(va_arg(args, unsigned long long int), format));
 	else if (format == 'p')
-		return (ft_printpointer(va_arg(args, unsigned long long int)));
+		return (ft_printpointer(va_arg(args, char *)));
 	else
-		return (0);
+		return (-1);
 }
 
 int ft_printf(const char *s, ...)
@@ -156,17 +160,18 @@ int ft_printf(const char *s, ...)
 	va_start(args, s);
 	i = 0;
 	len = 0;
+	if (!s)
+		return (0);
 	while (s[i])
 	{
-		if (s[i] != '%')
-		{
-			write(1, &s[i], 1);
-			len++;
-		}
 		if (s[i] == '%' && ft_strchr("cspdiuxX%", s[i + 1]) != NULL)
 		{
 			len += ft_formatspec(s[i + 1], args);
 			i++;
+		}
+		else
+		{
+			len += write(1, &s[i], 1);
 		}
 		i++;
 	}
@@ -183,22 +188,12 @@ int	main(void)
 
 	str = "hola";
 	x = -97248;
-	a = printf("%% mocos   %p %c %s\n", str, 'w', "yoyas");
-	b = ft_printf("%% mocos   %p %c %s\n", str, 'w', "yoyas");
+	a = printf("%i %p %c %s", 66, 44, 666, str, 'w', "yoyas");
+	printf("\n-\n");
+	b = ft_printf("%i", 666, str, 'w', "yoyas");
+	printf("\n-\n");
 	printf("%d\n", a);
 	printf("%d\n", b);
-	printf("\n");
-	
-	a = printf("% %i", x);
-	b = ft_printf("% %i\n", x);
-	printf("%d\n", a);
-	printf("%d\n", b);	
 
-	char	*ptr = NULL;
-	a = printf("% mocos %s%p\n", ptr, ptr);
-	b = ft_printf("% mocos %s\n", ptr, ptr);
-	printf("%d\n", a);
-	printf("%d\n", b);	
-	
 	return (0);
 }
