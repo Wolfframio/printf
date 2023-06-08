@@ -150,17 +150,17 @@ int	ft_printhex(unsigned int nbr, char format)
 	return (len);	
 }
 
-char	*ft_checkerror((char) *str)
+char	*ft_checkerror(char *str)
 {
 	int	i;
-	
+
 	i = 0;
 	while (i < (ft_strlen(str) - 1))
 	{
 		if (str[i] == '%' && (str[i + 1] == ' ' || str[i + 1] == '\0'))
 		return (NULL);
+		i++;
 	}
-	i++;
 	return (str);
 }
 
@@ -206,8 +206,8 @@ int ft_printf(const char *s, ...)
 	i = 0;
 	len = 0;
 	if (!s)
-		return (0);
-	if (ft_checkerror(s) != NULL)
+		return (-1);
+	if (ft_checkerror((char *)s) == NULL)
 		return (-1);
 	while (s[i])
 	{
@@ -228,12 +228,13 @@ int ft_printf(const char *s, ...)
 
 int main()
 {
-//	int a;
+	int a;
 	int	b;
 
-//	a = printf("origen= %   c\n", '0');
-	b = ft_printf("\001\002\007\v\010\f\r\n");
-//	printf("\na: %d\n", a);
+	char	*ptr = NULL;
+	a = printf("ptr");
+	b = ft_printf(ptr, 12);
+	printf("\na: %d\n", a);
 	printf("b: %d\n", b);
 	return (0);
 }
