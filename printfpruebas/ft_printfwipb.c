@@ -105,73 +105,26 @@ int ft_printpointer(char *addr)
 	if (addr == NULL)
 		return (write(1, "0x0", 3));
 	len = ft_printstr("0x");
-	len += ft_printhexptr((unsigned long long int)addr);
+	len += ft_printhex((unsigned long long int)addr, 'p');
 	return (len);
 }
 
-int	ft_printhexptr(unsigned long long int nbr)
-{
-	char	*base;
-	int		len;
-	
-	len = 0;
-	base = "0123456789abcdef";
-	if (nbr >= 16)
-	{
-		len += ft_printhexptr(nbr / 16);
-		len += ft_printhexptr(nbr % 16);
-	}
-	else
-	{
-		len += write(1, &base[nbr], 1);
-	}
-	return (len);
-}
-
-int	ft_printhex(unsigned int nbr, char format)
-{
-	char	*base;
-	int		len;
-	
-	len = 0;
-	if (format == 'x')
-		base = "0123456789abcdef";
-	else if (format == 'X')
-		base = "0123456789ABCDEF";
-	if (nbr >= 16)
-	{
-		len += ft_printhex(nbr / 16, format);
-		len += ft_printhex(nbr % 16, format);
-	}
-	else
-	{
-		len += write(1, &base[nbr], 1);
-	}
-	return (len);	
-}
-
-char	*ft_checkerror((char) *str)
-{
-	int	i;
-	
-	i = 0;
-	while (i < (ft_strlen(str) - 1))
-	{
-		if (str[i] == '%' && (str[i + 1] == ' ' || str[i + 1] == '\0'))
-		return (NULL);
-	}
-	i++;
-	return (str);
-}
-
-int	ft_strlen(char *str)
+int	ft_printhex(unsigned long long int n, char w)
 {
 	int	i;
 
 	i = 0;
-	while (str[i])
+	if (w == 'X')
 	{
-		i ++;
+		if (n >= 16)
+			i += ft_printhex(n / 16, w);
+		i += ft_printchar("0123456789ABCDEF"[n % 16]);
+	}
+	else if (w == 'x' || w == 'p')
+	{
+		if (n >= 16)
+			i += ft_printhex(n / 16, w);
+		i += ft_printchar("0123456789abcdef"[n % 16]);
 	}
 	return (i);
 }
@@ -189,7 +142,7 @@ int ft_formatspec(char format, va_list args)
 	else if (format == 'u')
 		return (ft_printnbru(va_arg(args, unsigned int)));
 	else if (format == 'x' || format == 'X')
-		return (ft_printhex(va_arg(args, unsigned int), format));
+		return (ft_printhex(va_arg(args, unsigned long long int), format));
 	else if (format == 'p')
 		return (ft_printpointer(va_arg(args, char *)));
 	else
@@ -207,8 +160,6 @@ int ft_printf(const char *s, ...)
 	len = 0;
 	if (!s)
 		return (0);
-	if (ft_checkerror(s) != NULL)
-		return (-1);
 	while (s[i])
 	{
 		if (s[i] == '%' && ft_strchr("cspdiuxX%", s[i + 1]) != NULL)
@@ -228,12 +179,14 @@ int ft_printf(const char *s, ...)
 
 int main()
 {
-//	int a;
+  	int x;
+	int a;
 	int	b;
 
-//	a = printf("origen= %   c\n", '0');
-	b = ft_printf("\001\002\007\v\010\f\r\n");
-//	printf("\na: %d\n", a);
-	printf("b: %d\n", b);
+	x = -568899;
+	a = printf("%   x, %x, %x, %x, %x, %x.\n", -15, -16, -17, -99, -100, -101);
+	b = ft_printf("%   x, %x, %x, %x, %x, %x.\n", -15, -16, -17, -99, -100, -101);
+	printf("%d\n", a);
+	printf("%d\n", b);
 	return (0);
 }
