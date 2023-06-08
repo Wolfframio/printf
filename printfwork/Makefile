@@ -20,6 +20,7 @@ SRCS		= 	ft_printf.c \
 				ft_printchar.c \
 				ft_printhex.c \
 				ft_printpointer.c \
+				ft_printhexptr.c \
 				
 OBJS		= $(SRCS:%.c=%.o)
 

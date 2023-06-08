@@ -27,31 +27,34 @@ int	ft_formatspec(char format, va_list args)
 	else if (format == 'x' || format == 'X')
 		return (ft_printhex(va_arg(args, unsigned long long int), format));
 	else if (format == 'p')
-		return (ft_printpointer(va_arg(args, unsigned long long int)));
+		return (ft_printpointer(va_arg(args, char *)));
 	else
-		return (-1);
+		return (0);
 }
 
-int	ft_printf(const char *s, ...)
+int ft_printf(const char *s, ...)
 {
 	va_list	args;
-	int		i;
-	int		len;
+	int	i;
+	int len;
 
 	va_start(args, s);
 	i = 0;
 	len = 0;
+	if (!s)
+		return (0);
 	while (s[i])
 	{
-		if (s[i] != '%')
-		{
-			write(1, &s[i], 1);
-			len++;
-		}
+		if (*(ft_strchr(s, '%') + 1) == ' ' || *(ft_strchr(s, '%') + 1) == '\0')
+			return (-1);
 		if (s[i] == '%' && ft_strchr("cspdiuxX%", s[i + 1]) != NULL)
 		{
 			len += ft_formatspec(s[i + 1], args);
 			i++;
+		}
+		else
+		{
+			len += write(1, &s[i], 1);
 		}
 		i++;
 	}

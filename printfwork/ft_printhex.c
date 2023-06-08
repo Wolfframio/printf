@@ -6,19 +6,19 @@
 /*   By: imontero <imontero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 09:56:40 by imontero          #+#    #+#             */
-/*   Updated: 2023/06/06 14:53:25 by imontero         ###   ########.fr       */
+/*   Updated: 2023/06/08 12:47:12 by imontero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printhex(unsigned long long int nbr, char format)
+int	ft_printhex(unsigned int nbr, char format)
 {
 	char	*base;
 	int		len;
-
+	
 	len = 0;
-	if (format == 'x' || format == 'p')
+	if (format == 'x')
 		base = "0123456789abcdef";
 	else if (format == 'X')
 		base = "0123456789ABCDEF";
@@ -31,5 +31,5 @@ int	ft_printhex(unsigned long long int nbr, char format)
 	{
 		len += write(1, &base[nbr], 1);
 	}
-	return (len);
+	return (len);	
 }

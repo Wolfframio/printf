@@ -6,7 +6,7 @@
 /*   By: imontero <imontero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:27:57 by imontero          #+#    #+#             */
-/*   Updated: 2023/06/06 13:51:51 by imontero         ###   ########.fr       */
+/*   Updated: 2023/06/07 11:47:29 by imontero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_printstr(char *s)
 	int	i;
 
 	i = 0;
+	if (!s)
+		return (write(1, "(null)", 6));
 	while (s[i])
 	{
 		write(1, &s[i], 1);
